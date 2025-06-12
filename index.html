@@ -25,17 +25,12 @@
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        .sidebar-link.active {
-            background-color: rgba(59, 130, 246, 0.1);
+        .header-link.active, .dropdown-link.active {
             color: #60a5fa; /* text-blue-400 */
             font-weight: 600;
-            border-left: 3px solid #3b82f6;
         }
-        .sidebar-link.active svg {
-            color: #60a5fa;
-        }
-        .sidebar-link:not(.active):hover {
-            background-color: rgba(255, 255, 255, 0.05);
+        .header-link:not(.active):hover, .dropdown-link:not(.active):hover {
+            color: #93c5fd; /* text-blue-300 */
         }
         /* Custom scrollbar */
         ::-webkit-scrollbar {
@@ -87,113 +82,175 @@
     </style>
 </head>
 <body>
+    <div class="min-h-screen">
+        <!-- New Header Navigation -->
+        <header class="bg-[#0d111c]/80 backdrop-blur-lg sticky top-0 z-50 border-b border-gray-800">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between h-16">
+                    <!-- Logo -->
+                    <div class="flex-shrink-0">
+                        <a href="#home" class="nav-link flex items-center space-x-2">
+                             <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M15 21v-1a6 6 0 00-1-4M9 8a4 4 0 110-5.292A4 4 0 019 8z" />
+                            </svg>
+                            <span class="text-xl font-extrabold text-white">Digital Nexus</span>
+                        </a>
+                    </div>
 
-    <div class="flex flex-col md:flex-row min-h-screen">
-        <!-- Sidebar -->
-        <aside id="sidebar" class="w-full md:w-72 bg-[#0d111c] md:fixed md:h-full transition-transform duration-300 ease-in-out -translate-x-full md:translate-x-0 z-20 border-r border-gray-800">
-            <div class="p-6 border-b border-gray-800 flex items-center space-x-3">
-                 <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M15 21v-1a6 6 0 00-1-4M9 8a4 4 0 110-5.292A4 4 0 019 8z" />
-                </svg>
-                <div>
-                    <h1 class="text-xl font-extrabold text-white">Digital Nexus</h1>
-                    <p class="text-sm text-gray-400">Informatika K7</p>
+                    <!-- Desktop Navigation -->
+                    <nav class="hidden md:flex md:items-center md:space-x-8">
+                        <a href="#home" class="header-link nav-link text-gray-300 transition-colors duration-200">Beranda</a>
+                        <div class="relative" id="materi-dropdown">
+                            <button id="materi-dropdown-button" class="header-link flex items-center text-gray-300 transition-colors duration-200">
+                                <span>Materi Pelajaran</span>
+                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <div id="materi-dropdown-menu" class="hidden absolute mt-2 w-56 rounded-md shadow-lg bg-gray-800 ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                <div class="py-1">
+                                    <a href="#bab1" class="nav-link dropdown-link block px-4 py-2 text-sm text-gray-300">Bab 1: Informatika & Skill</a>
+                                    <a href="#bab2" class="nav-link dropdown-link block px-4 py-2 text-sm text-gray-300">Bab 2: Berpikir Komputasional</a>
+                                    <a href="#bab3" class="nav-link dropdown-link block px-4 py-2 text-sm text-gray-300">Bab 3: TIK</a>
+                                    <a href="#bab4" class="nav-link dropdown-link block px-4 py-2 text-sm text-gray-300">Bab 4: Sistem Komputer</a>
+                                    <a href="#bab5" class="nav-link dropdown-link block px-4 py-2 text-sm text-gray-300">Bab 5: Jaringan & Internet</a>
+                                    <a href="#bab6" class="nav-link dropdown-link block px-4 py-2 text-sm text-gray-300">Bab 6: Analisis Data</a>
+                                    <a href="#bab7" class="nav-link dropdown-link block px-4 py-2 text-sm text-gray-300">Bab 7: Algoritma & Pemrograman</a>
+                                    <a href="#bab8" class="nav-link dropdown-link block px-4 py-2 text-sm text-gray-300">Bab 8: Dampak Sosial</a>
+                                    <a href="#bab9" class="nav-link dropdown-link block px-4 py-2 text-sm text-gray-300">Bab 9: Praktika Lintas Bidang</a>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#kuis" class="header-link nav-link text-gray-300 transition-colors duration-200">Kuis Interaktif</a>
+                    </nav>
+
+                    <!-- Mobile Menu Button -->
+                    <div class="md:hidden">
+                        <button id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+                            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                            </svg>
+                        </button>
+                    </div>
                 </div>
             </div>
-            <nav class="mt-4 px-2 flex-grow h-[calc(100%-89px)] overflow-y-auto">
-                <a href="#home" class="sidebar-link flex items-center p-3 my-1 rounded-md transition-colors duration-200">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
-                    Beranda
-                </a>
-                <div class="mt-6">
-                    <p class="px-3 mb-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">Materi Pelajaran</p>
-                    <a href="#bab1" class="sidebar-link flex items-center p-3 my-1 rounded-md transition-colors duration-200">
-                        <span class="mr-4 font-bold text-blue-500 w-5 text-center">1</span> Informatika & Skill
-                    </a>
-                    <a href="#bab2" class="sidebar-link flex items-center p-3 my-1 rounded-md transition-colors duration-200">
-                        <span class="mr-4 font-bold text-blue-500 w-5 text-center">2</span> Berpikir Komputasional
-                    </a>
-                    <a href="#bab3" class="sidebar-link flex items-center p-3 my-1 rounded-md transition-colors duration-200">
-                        <span class="mr-4 font-bold text-blue-500 w-5 text-center">3</span> TIK
-                    </a>
-                    <a href="#bab4" class="sidebar-link flex items-center p-3 my-1 rounded-md transition-colors duration-200">
-                        <span class="mr-4 font-bold text-blue-500 w-5 text-center">4</span> Sistem Komputer
-                    </a>
-                    <a href="#bab5" class="sidebar-link flex items-center p-3 my-1 rounded-md transition-colors duration-200">
-                        <span class="mr-4 font-bold text-blue-500 w-5 text-center">5</span> Jaringan & Internet
-                    </a>
-                    <a href="#bab6" class="sidebar-link flex items-center p-3 my-1 rounded-md transition-colors duration-200">
-                        <span class="mr-4 font-bold text-blue-500 w-5 text-center">6</span> Analisis Data
-                    </a>
-                    <a href="#bab7" class="sidebar-link flex items-center p-3 my-1 rounded-md transition-colors duration-200">
-                        <span class="mr-4 font-bold text-blue-500 w-5 text-center">7</span> Algoritma & Pemrograman
-                    </a>
-                    <a href="#bab8" class="sidebar-link flex items-center p-3 my-1 rounded-md transition-colors duration-200">
-                        <span class="mr-4 font-bold text-blue-500 w-5 text-center">8</span> Dampak Sosial Informatika
-                    </a>
-                    <a href="#bab9" class="sidebar-link flex items-center p-3 my-1 rounded-md transition-colors duration-200">
-                        <span class="mr-4 font-bold text-blue-500 w-5 text-center">9</span> Praktika Lintas Bidang
-                    </a>
+
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden md:hidden">
+                <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                    <a href="#home" class="nav-link header-link block px-3 py-2 rounded-md text-base font-medium text-gray-300">Beranda</a>
+                     <p class="px-3 pt-4 pb-1 text-xs font-semibold text-gray-500 uppercase tracking-wider">Materi Pelajaran</p>
+                    <a href="#bab1" class="nav-link dropdown-link block px-3 py-2 rounded-md text-base font-medium text-gray-300">Bab 1: Informatika & Skill</a>
+                    <a href="#bab2" class="nav-link dropdown-link block px-3 py-2 rounded-md text-base font-medium text-gray-300">Bab 2: Berpikir Komputasional</a>
+                    <a href="#bab3" class="nav-link dropdown-link block px-3 py-2 rounded-md text-base font-medium text-gray-300">Bab 3: TIK</a>
+                    <a href="#bab4" class="nav-link dropdown-link block px-3 py-2 rounded-md text-base font-medium text-gray-300">Bab 4: Sistem Komputer</a>
+                    <a href="#bab5" class="nav-link dropdown-link block px-3 py-2 rounded-md text-base font-medium text-gray-300">Bab 5: Jaringan & Internet</a>
+                    <a href="#bab6" class="nav-link dropdown-link block px-3 py-2 rounded-md text-base font-medium text-gray-300">Bab 6: Analisis Data</a>
+                    <a href="#bab7" class="nav-link dropdown-link block px-3 py-2 rounded-md text-base font-medium text-gray-300">Bab 7: Algoritma & Pemrograman</a>
+                    <a href="#bab8" class="nav-link dropdown-link block px-3 py-2 rounded-md text-base font-medium text-gray-300">Bab 8: Dampak Sosial</a>
+                    <a href="#bab9" class="nav-link dropdown-link block px-3 py-2 rounded-md text-base font-medium text-gray-300">Bab 9: Praktika Lintas Bidang</a>
+                    <p class="px-3 pt-4 pb-1 text-xs font-semibold text-gray-500 uppercase tracking-wider">Evaluasi</p>
+                    <a href="#kuis" class="nav-link header-link block px-3 py-2 rounded-md text-base font-medium text-gray-300">Kuis Interaktif</a>
                 </div>
-                <div class="mt-6">
-                    <p class="px-3 mb-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">Evaluasi</p>
-                    <a href="#kuis" class="sidebar-link flex items-center p-3 my-1 rounded-md transition-colors duration-200">
-                       <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
-                        </svg>
-                        Kuis Interaktif
-                    </a>
-                </div>
-            </nav>
-        </aside>
+            </div>
+        </header>
 
         <!-- Main Content -->
-        <div class="flex-1 md:ml-72">
-            <header class="bg-gray-950/80 backdrop-blur-lg sticky top-0 z-10 p-4 flex justify-between items-center md:hidden border-b border-gray-800">
-                <h1 id="mobile-header-title" class="text-lg font-bold text-white">Beranda</h1>
-                <button id="menu-toggle" class="text-gray-300 focus:outline-none">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-                    </svg>
-                </button>
-            </header>
-            <main class="p-4 sm:p-6 md:p-8 space-y-8">
-                
-                <!-- Home Section -->
-                <section id="home" class="content-section">
-                    <div class="card">
-                        <h2 class="text-3xl font-bold text-white mb-4">Selamat Datang di Digital Nexus!</h2>
-                        <p class="text-gray-400 leading-relaxed mb-6 max-w-3xl">
-                            Platform ini adalah gerbang Anda untuk menjelajahi dunia informatika yang luas. Setiap bab dirancang untuk membangun pemahaman Anda dari dasar hingga konsep yang lebih maju secara interaktif.
-                        </p>
-                        <div class="grid md:grid-cols-2 gap-6">
-                            <div class="bg-gray-800 p-6 rounded-lg border border-gray-700">
-                                <h3 class="font-semibold text-lg text-blue-400 mb-2">Materi Terstruktur</h3>
-                                <p class="text-gray-400">Setiap topik disajikan dengan alur yang jelas, dari pengantar hingga rangkuman, membuat konsep sulit menjadi mudah dipahami.</p>
-                            </div>
-                            <div class="bg-gray-800 p-6 rounded-lg border border-gray-700">
-                                <h3 class="font-semibold text-lg text-cyan-400 mb-2">Kuis Interaktif</h3>
-                                <p class="text-gray-400">Asah pemahamanmu dengan kuis di akhir perjalanan. Dapatkan pembahasan instan untuk terus berkembang.</p>
-                            </div>
+        <main class="container mx-auto p-4 sm:p-6 md:p-8">
+            <!-- Home Section -->
+            <section id="home" class="content-section">
+                <div class="card">
+                    <h2 class="text-3xl font-bold text-white mb-4">Selamat Datang di Digital Nexus!</h2>
+                    <p class="text-gray-400 leading-relaxed mb-6 max-w-3xl">
+                        Platform ini adalah gerbang Anda untuk menjelajahi dunia informatika yang luas. Setiap bab dirancang untuk membangun pemahaman Anda dari dasar hingga konsep yang lebih maju secara interaktif.
+                    </p>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="bg-gray-800 p-6 rounded-lg border border-gray-700">
+                            <h3 class="font-semibold text-lg text-blue-400 mb-2">Materi Terstruktur</h3>
+                            <p class="text-gray-400">Setiap topik disajikan dengan alur yang jelas, dari pengantar hingga rangkuman, membuat konsep sulit menjadi mudah dipahami.</p>
                         </div>
-                        <div class="mt-8 text-center p-6 bg-gray-900/50 rounded-lg border border-gray-800">
-                            <p class="text-gray-500">
-                            Pilih materi dari panel navigasi untuk memulai ekspedisi digital Anda.
-                        </p>
+                        <div class="bg-gray-800 p-6 rounded-lg border border-gray-700">
+                            <h3 class="font-semibold text-lg text-cyan-400 mb-2">Kuis Interaktif</h3>
+                            <p class="text-gray-400">Asah pemahamanmu dengan kuis di akhir perjalanan. Dapatkan pembahasan instan untuk terus berkembang.</p>
                         </div>
                     </div>
-                </section>
-
-                <!-- Materi Bab Template -->
-                <section id="bab1" class="content-section">
-                    <div class="card">
-                        <div class="border-b border-gray-700 pb-4 mb-6">
-                            <p class="text-sm font-semibold text-blue-500">BAB 1</p>
-                            <h2 class="text-3xl font-bold text-white mt-1">Informatika dan Keterampilan Generik</h2>
+                    <div class="mt-8 text-center p-6 bg-gray-900/50 rounded-lg border border-gray-800">
+                        <p class="text-gray-500">
+                        Pilih materi dari navigasi di atas untuk memulai ekspedisi digital Anda.
+                        </p>
+                    </div>
+                </div>
+            </section>
+             <!-- Materi Bab Templates -->
+             <section id="bab1" class="content-section"></section>
+             <section id="bab2" class="content-section"></section>
+             <section id="bab3" class="content-section"></section>
+             <section id="bab4" class="content-section"></section>
+             <section id="bab5" class="content-section"></section>
+             <section id="bab6" class="content-section"></section>
+             <section id="bab7" class="content-section"></section>
+             <section id="bab8" class="content-section"></section>
+             <section id="bab9" class="content-section"></section>
+             
+             <!-- Kuis Interaktif Section -->
+            <section id="kuis" class="content-section">
+                <div class="card">
+                    <div id="quiz-area">
+                        <!-- Quiz header -->
+                        <div id="quiz-header" class="border-b border-gray-700 pb-4 mb-6">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <p class="text-sm font-semibold text-blue-500">EVALUASI</p>
+                                    <h2 class="text-3xl font-bold text-white mt-1">Kuis Interaktif</h2>
+                                </div>
+                                <div id="quiz-progress" class="text-right">
+                                    <p class="text-sm text-gray-400">Soal</p>
+                                    <p class="font-bold text-white text-lg">1 / 25</p>
+                                </div>
+                            </div>
                         </div>
-                        
+
+                        <!-- Quiz body for single question -->
+                        <div id="quiz-body" class="mt-8">
+                            <!-- Single question will be rendered here -->
+                        </div>
+
+                        <!-- Quiz feedback area -->
+                        <div id="quiz-feedback" class="mt-4">
+                            <!-- Explanation will be shown here -->
+                        </div>
+
+                        <!-- Quiz navigation -->
+                        <div id="quiz-navigation" class="mt-8">
+                            <!-- Check/Next buttons will be rendered here -->
+                        </div>
+                    </div>
+
+                    <!-- Quiz final results -->
+                    <div id="quiz-final-result" class="hidden text-center">
+                        <h2 class="text-3xl font-bold text-white">Kuis Selesai!</h2>
+                        <p class="text-gray-400 mt-2">Berikut adalah hasil akhir Anda.</p>
+                        <div id="final-score-display" class="my-8">
+                            <p class="text-6xl font-extrabold text-blue-400">0/20</p>
+                            <p class="text-gray-400 mt-2">Soal Pilihan Ganda</p>
+                        </div>
+                        <button id="retake-quiz" class="w-full md:w-auto btn-primary text-white font-bold py-3 px-8 rounded-lg hover:opacity-90 transition-all duration-300 shadow-lg shadow-blue-500/20">
+                            Ulangi Kuis
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Unchanged content data
+            const babContent = {
+                bab1: {
+                    title: "Informatika dan Keterampilan Generik",
+                    content: `
                         <h3 class="text-xl font-semibold mt-8 mb-3 text-gray-100">A. Pengantar</h3>
-                        <p>Bab ini memperkenalkan dunia Informatika, mengapa penting untuk mempelajarinya di era digital, dan apa saja yang akan menjadi fokus pembelajaran. Selain itu, bab ini menekankan pentingnya keterampilan generik seperti bekerja sama dalam tim dan komunikasi yang efektif.</p>
+                        <p class="text-gray-400">Bab ini memperkenalkan dunia Informatika, mengapa penting untuk mempelajarinya di era digital, dan apa saja yang akan menjadi fokus pembelajaran. Selain itu, bab ini menekankan pentingnya keterampilan generik seperti bekerja sama dalam tim dan komunikasi yang efektif.</p>
 
                         <h3 class="text-xl font-semibold mt-8 mb-3 text-gray-100">B. Penjelasan</h3>
                         <div class="space-y-4 text-gray-400">
@@ -229,75 +286,8 @@
                         <div class="border-l-4 border-blue-500 pl-4 py-2 bg-blue-900/20 rounded-r-lg">
                         <p class="text-gray-300">Informatika adalah ilmu fundamental di era digital. Untuk menguasainya, diperlukan pemahaman teknis dan keterampilan generik seperti kolaborasi, perencanaan, dan komunikasi yang baik.</p>
                         </div>
-                    </div>
-                </section>
-                
-                <!-- All other chapters follow the same modern template... -->
-                <section id="bab2" class="content-section"></section>
-                <section id="bab3" class="content-section"></section>
-                <section id="bab4" class="content-section"></section>
-                <section id="bab5" class="content-section"></section>
-                <section id="bab6" class="content-section"></section>
-                <section id="bab7" class="content-section"></section>
-                <section id="bab8" class="content-section"></section>
-                <section id="bab9" class="content-section"></section>
-                
-                <!-- Kuis Interaktif Section -->
-                <section id="kuis" class="content-section">
-                    <div class="card">
-                        <div id="quiz-area">
-                            <!-- Quiz header -->
-                            <div id="quiz-header" class="border-b border-gray-700 pb-4 mb-6">
-                                <div class="flex justify-between items-center">
-                                    <div>
-                                        <p class="text-sm font-semibold text-blue-500">EVALUASI</p>
-                                        <h2 class="text-3xl font-bold text-white mt-1">Kuis Interaktif</h2>
-                                    </div>
-                                    <div id="quiz-progress" class="text-right">
-                                        <p class="text-sm text-gray-400">Soal</p>
-                                        <p class="font-bold text-white text-lg">1 / 25</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Quiz body for single question -->
-                            <div id="quiz-body" class="mt-8">
-                                <!-- Single question will be rendered here -->
-                            </div>
-
-                            <!-- Quiz feedback area -->
-                            <div id="quiz-feedback" class="mt-4">
-                                <!-- Explanation will be shown here -->
-                            </div>
-
-                            <!-- Quiz navigation -->
-                            <div id="quiz-navigation" class="mt-8">
-                                <!-- Check/Next buttons will be rendered here -->
-                            </div>
-                        </div>
-
-                        <!-- Quiz final results -->
-                        <div id="quiz-final-result" class="hidden text-center">
-                            <h2 class="text-3xl font-bold text-white">Kuis Selesai!</h2>
-                            <p class="text-gray-400 mt-2">Berikut adalah hasil akhir Anda.</p>
-                            <div id="final-score-display" class="my-8">
-                                <p class="text-6xl font-extrabold text-blue-400">0/20</p>
-                                <p class="text-gray-400 mt-2">Soal Pilihan Ganda</p>
-                            </div>
-                            <button id="retake-quiz" class="w-full md:w-auto btn-primary text-white font-bold py-3 px-8 rounded-lg hover:opacity-90 transition-all duration-300 shadow-lg shadow-blue-500/20">
-                                Ulangi Kuis
-                            </button>
-                        </div>
-                    </div>
-                </section>
-            </main>
-        </div>
-    </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Unchanged content data
-            const babContent = {
+                    `
+                },
                 bab2: {
                     title: "Berpikir Komputasional",
                     content: `
@@ -773,12 +763,14 @@
             document.getElementById('retake-quiz').addEventListener('click', startQuiz);
 
             // --- General Page Logic ---
-            const sidebarLinks = document.querySelectorAll('.sidebar-link');
+            const navLinks = document.querySelectorAll('.nav-link');
             const contentSections = document.querySelectorAll('.content-section');
-            const menuToggle = document.getElementById('menu-toggle');
-            const sidebar = document.getElementById('sidebar');
-            const mobileHeaderTitle = document.getElementById('mobile-header-title');
-
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const dropdown = document.getElementById('materi-dropdown');
+            const dropdownButton = document.getElementById('materi-dropdown-button');
+            const dropdownMenu = document.getElementById('materi-dropdown-menu');
+            
              function populateBabContent() {
                 for (const babId in babContent) {
                     const section = document.getElementById(babId);
@@ -801,33 +793,34 @@
                 if (!hash || hash === '#') hash = '#home';
                 
                 contentSections.forEach(section => section.classList.remove('active'));
-                sidebarLinks.forEach(link => link.classList.remove('active'));
+                navLinks.forEach(link => link.classList.remove('active'));
 
                 const activeSection = document.querySelector(hash);
-                let activeLinkText = 'Beranda';
-
+                
                 if (activeSection) {
                     activeSection.classList.add('active');
-                    const activeLink = document.querySelector(`.sidebar-link[href="${hash}"]`);
-                    if(activeLink) {
-                        activeLink.classList.add('active');
-                        activeLinkText = activeLink.textContent.trim();
+                    const activeLinks = document.querySelectorAll(`.nav-link[href="${hash}"]`);
+                    activeLinks.forEach(link => link.classList.add('active'));
+
+                    // Highlight dropdown button if a chapter is selected
+                    const materiDropdownButton = document.getElementById('materi-dropdown-button');
+                    if(hash.startsWith('#bab')) {
+                        materiDropdownButton.classList.add('active');
+                    } else {
+                        materiDropdownButton.classList.remove('active');
                     }
+
                     if (hash === '#kuis') {
                         startQuiz();
                     }
                 }
                 
-                mobileHeaderTitle.textContent = activeLinkText;
-                 
-                if (sidebar.classList.contains('!translate-x-0')) {
-                   sidebar.classList.remove('!translate-x-0');
-                   sidebar.classList.add('-translate-x-full');
-                }
+                // Close mobile menu after navigation
+                mobileMenu.classList.add('hidden');
                 window.scrollTo(0, 0);
             }
 
-            sidebarLinks.forEach(link => {
+            navLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
                     const hash = this.getAttribute('href');
@@ -836,11 +829,15 @@
                 });
             });
 
-            menuToggle.addEventListener('click', () => {
-                sidebar.classList.toggle('-translate-x-full');
-                sidebar.classList.toggle('!translate-x-0');
+            // Mobile menu toggle
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
             });
             
+            // Dropdown toggle
+            dropdown.addEventListener('mouseenter', () => dropdownMenu.classList.remove('hidden'));
+            dropdown.addEventListener('mouseleave', () => dropdownMenu.classList.add('hidden'));
+
             window.addEventListener('popstate', () => {
                 updateContent(window.location.hash);
             });
