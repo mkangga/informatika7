@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informatika Kelas 7 - Pembelajaran Interaktif</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #030712; /* bg-gray-950 */
+            color: #d1d5db; /* text-gray-300 */
+        }
+        .content-section {
+            display: none;
+        }
+        .content-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .sidebar-link.active {
+            background-color: rgba(59, 130, 246, 0.1);
+            color: #60a5fa; /* text-blue-400 */
+            font-weight: 600;
+            border-left: 3px solid #3b82f6;
+        }
+        .sidebar-link.active svg {
+            color: #60a5fa;
+        }
+        .sidebar-link:not(.active):hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1f2937; /* bg-gray-800 */
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #374151; /* bg-gray-700 */
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #4b5563; /* bg-gray-600 */
+        }
+        .quiz-option input:checked + label, .quiz-option.selected-correct {
+            border-color: #22c55e;
+            background-color: rgba(34, 197, 94, 0.1);
+            color: #86efac;
+        }
+        .quiz-option.selected-incorrect {
+             border-color: #ef4444;
+             background-color: rgba(239, 68, 68, 0.1);
+             color: #fca5a5;
+        }
+        
+        .card {
+            background-color: #111827; /* bg-gray-900 */
+            border-radius: 0.75rem; /* rounded-xl */
+            padding: 2rem;
+            border: 1px solid #1f2937; /* border-gray-800 */
+            transition: all 0.3s ease;
+        }
+        .card:hover {
+             box-shadow: 0 0 15px rgba(59, 130, 246, 0.15);
+             border-color: #374151;
+        }
+        .btn-primary {
+             background-image: linear-gradient(to right, #3b82f6, #6366f1);
+        }
+        .btn-primary:hover:not(:disabled) {
+             background-image: linear-gradient(to right, #2563eb, #4f46e5);
+        }
+        .btn-primary:disabled {
+            background-image: none;
+            background-color: #374151;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="flex flex-col md:flex-row min-h-screen">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="w-full md:w-72 bg-[#0d111c] md:fixed md:h-full transition-transform duration-300 ease-in-out -translate-x-full md:translate-x-0 z-20 border-r border-gray-800">
+            <div class="p-6 border-b border-gray-800 flex items-center space-x-3">
+                 <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M15 21v-1a6 6 0 00-1-4M9 8a4 4 0 110-5.292A4 4 0 019 8z" />
+                </svg>
+                <div>
+                    <h1 class="text-xl font-extrabold text-white">Digital Nexus</h1>
+                    <p class="text-sm text-gray-400">Informatika K7</p>
+                </div>
+            </div>
+            <nav class="mt-4 px-2 flex-grow h-[calc(100%-89px)] overflow-y-auto">
+                <a href="#home" class="sidebar-link flex items-center p-3 my-1 rounded-md transition-colors duration-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
+                    Beranda
+                </a>
+                <div class="mt-6">
+                    <p class="px-3 mb-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">Materi Pelajaran</p>
+                    <a href="#bab1" class="sidebar-link flex items-center p-3 my-1 rounded-md transition-colors duration-200">
+                        <span class="mr-4 font-bold text-blue-500 w-5 text-center">1</span> Informatika & Skill
+                    </a>
+                    <a href="#bab2" class="sidebar-link flex items-center p-3 my-1 rounded-md transition-colors duration-200">
+                        <span class="mr-4 font-bold text-blue-500 w-5 text-center">2</span> Berpikir Komputasional
+                    </a>
+                    <a href="#bab3" class="sidebar-link flex items-center p-3 my-1 rounded-md transition-colors duration-200">
+                        <span class="mr-4 font-bold text-blue-500 w-5 text-center">3</span> TIK
+                    </a>
+                    <a href="#bab4" class="sidebar-link flex items-center p-3 my-1 rounded-md transition-colors duration-200">
+                        <span class="mr-4 font-bold text-blue-500 w-5 text-center">4</span> Sistem Komputer
+                    </a>
+                    <a href="#bab5" class="sidebar-link flex items-center p-3 my-1 rounded-md transition-colors duration-200">
+                        <span class="mr-4 font-bold text-blue-500 w-5 text-center">5</span> Jaringan & Internet
+                    </a>
+                    <a href="#bab6" class="sidebar-link flex items-center p-3 my-1 rounded-md transition-colors duration-200">
+                        <span class="mr-4 font-bold text-blue-500 w-5 text-center">6</span> Analisis Data
+                    </a>
+                    <a href="#bab7" class="sidebar-link flex items-center p-3 my-1 rounded-md transition-colors duration-200">
+                        <span class="mr-4 font-bold text-blue-500 w-5 text-center">7</span> Algoritma & Pemrograman
+                    </a>
+                    <a href="#bab8" class="sidebar-link flex items-center p-3 my-1 rounded-md transition-colors duration-200">
+                        <span class="mr-4 font-bold text-blue-500 w-5 text-center">8</span> Dampak Sosial Informatika
+                    </a>
+                    <a href="#bab9" class="sidebar-link flex items-center p-3 my-1 rounded-md transition-colors duration-200">
+                        <span class="mr-4 font-bold text-blue-500 w-5 text-center">9</span> Praktika Lintas Bidang
+                    </a>
+                </div>
+                <div class="mt-6">
+                    <p class="px-3 mb-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">Evaluasi</p>
+                    <a href="#kuis" class="sidebar-link flex items-center p-3 my-1 rounded-md transition-colors duration-200">
+                       <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                        </svg>
+                        Kuis Interaktif
+                    </a>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="flex-1 md:ml-72">
+            <header class="bg-gray-950/80 backdrop-blur-lg sticky top-0 z-10 p-4 flex justify-between items-center md:hidden border-b border-gray-800">
+                <h1 id="mobile-header-title" class="text-lg font-bold text-white">Beranda</h1>
+                <button id="menu-toggle" class="text-gray-300 focus:outline-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
+            </header>
+            <main class="p-4 sm:p-6 md:p-8 space-y-8">
+                
+                <!-- Home Section -->
+                <section id="home" class="content-section">
+                    <div class="card">
+                        <h2 class="text-3xl font-bold text-white mb-4">Selamat Datang di Digital Nexus!</h2>
+                        <p class="text-gray-400 leading-relaxed mb-6 max-w-3xl">
+                            Platform ini adalah gerbang Anda untuk menjelajahi dunia informatika yang luas. Setiap bab dirancang untuk membangun pemahaman Anda dari dasar hingga konsep yang lebih maju secara interaktif.
+                        </p>
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div class="bg-gray-800 p-6 rounded-lg border border-gray-700">
+                                <h3 class="font-semibold text-lg text-blue-400 mb-2">Materi Terstruktur</h3>
+                                <p class="text-gray-400">Setiap topik disajikan dengan alur yang jelas, dari pengantar hingga rangkuman, membuat konsep sulit menjadi mudah dipahami.</p>
+                            </div>
+                            <div class="bg-gray-800 p-6 rounded-lg border border-gray-700">
+                                <h3 class="font-semibold text-lg text-cyan-400 mb-2">Kuis Interaktif</h3>
+                                <p class="text-gray-400">Asah pemahamanmu dengan kuis di akhir perjalanan. Dapatkan pembahasan instan untuk terus berkembang.</p>
+                            </div>
+                        </div>
+                        <div class="mt-8 text-center p-6 bg-gray-900/50 rounded-lg border border-gray-800">
+                            <p class="text-gray-500">
+                            Pilih materi dari panel navigasi untuk memulai ekspedisi digital Anda.
+                        </p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Materi Bab Template -->
+                <section id="bab1" class="content-section">
+                    <div class="card">
+                        <div class="border-b border-gray-700 pb-4 mb-6">
+                            <p class="text-sm font-semibold text-blue-500">BAB 1</p>
+                            <h2 class="text-3xl font-bold text-white mt-1">Informatika dan Keterampilan Generik</h2>
+                        </div>
+                        
+                        <h3 class="text-xl font-semibold mt-8 mb-3 text-gray-100">A. Pengantar</h3>
+                        <p>Bab ini memperkenalkan dunia Informatika, mengapa penting untuk mempelajarinya di era digital, dan apa saja yang akan menjadi fokus pembelajaran. Selain itu, bab ini menekankan pentingnya keterampilan generik seperti bekerja sama dalam tim dan komunikasi yang efektif.</p>
+
+                        <h3 class="text-xl font-semibold mt-8 mb-3 text-gray-100">B. Penjelasan</h3>
+                        <div class="space-y-4 text-gray-400">
+                            <p><strong>1. Apa itu Informatika?</strong><br>Informatika adalah bidang ilmu yang mempelajari studi, perancangan, dan pembuatan sistem komputasi, serta prinsip-prinsip yang mendasarinya. Ini bukan hanya tentang menggunakan komputer, tetapi tentang memahami cara kerja dan menciptakan solusi dengan teknologi.</p>
+                            <p><strong>2. Mengapa Belajar Informatika?</strong><br>Di era Industri 4.0, memahami informatika mempersiapkanmu untuk menjadi pencipta teknologi, bukan hanya pengguna. Ini membuka peluang karir masa depan dan membantumu memecahkan masalah kompleks.</p>
+                            <p><strong>3. Bidang Pengetahuan Informatika:</strong></p>
+                            <ul class="list-disc list-inside bg-gray-800 p-4 rounded-lg space-y-2 border border-gray-700">
+                                <li><strong>Berpikir Komputasional (BK):</strong> Pondasi pemecahan masalah.</li>
+                                <li><strong>Teknologi Informasi dan Komunikasi (TIK):</strong> Penggunaan alat digital sehari-hari.</li>
+                                <li><strong>Sistem Komputer (SK):</strong> Memahami hardware dan software.</li>
+                                <li><strong>Jaringan Komputer dan Internet (JKI):</strong> Cara perangkat terhubung.</li>
+                                <li><strong>Analisis Data (AD):</strong> Mengolah informasi dari data.</li>
+                                <li><strong>Algoritma dan Pemrograman (AP):</strong> Memberi perintah pada komputer.</li>
+                                <li><strong>Dampak Sosial Informatika (DSI):</strong> Pengaruh teknologi pada masyarakat.</li>
+                                <li><strong>Praktika Lintas Bidang (PLB):</strong> Proyek gabungan dari semua bidang.</li>
+                            </ul>
+                        </div>
+
+                        <h3 class="text-xl font-semibold mt-8 mb-3 text-gray-100">C. Contoh Interaktif: Merencanakan Kerja Kelompok</h3>
+                        <div class="bg-gray-800 border-t-4 border-blue-600 p-6 rounded-b-lg">
+                            <p class="font-bold text-gray-100">Studi Kasus: Menyiapkan Pesta Ulang Tahun</p>
+                            <p class="mt-2 text-gray-400">Bayangkan kamu dan 4 temanmu ditugaskan mendekorasi ruang pesta. Tugasnya: meniup balon, menata meja, memasang hiasan, menyiapkan kue. Bagaimana kalian membagi tugas agar efisien?</p>
+                            <p class="mt-2 text-sm text-gray-400">Ini adalah contoh penerapan <strong>keterampilan generik</strong>. Perencanaan yang baik melibatkan:</p>
+                            <ul class="list-decimal list-inside mt-2 ml-4 text-gray-400">
+                                <li><strong>Pembagian Peran:</strong> Siapa melakukan apa?</li>
+                                <li><strong>Koordinasi:</strong> Siapa yang memastikan semua berjalan lancar?</li>
+                                <li><strong>Integrasi:</strong> Bagaimana hasil kerja digabungkan?</li>
+                            </ul>
+                            <p class="mt-4 text-sm italic text-blue-400">Kerja kelompok yang efektif membutuhkan perencanaan, bukan hanya bekerja bersama-sama secara acak.</p>
+                        </div>
+
+                        <h3 class="text-xl font-semibold mt-8 mb-3 text-gray-100">D. Rangkuman</h3>
+                        <div class="border-l-4 border-blue-500 pl-4 py-2 bg-blue-900/20 rounded-r-lg">
+                        <p class="text-gray-300">Informatika adalah ilmu fundamental di era digital. Untuk menguasainya, diperlukan pemahaman teknis dan keterampilan generik seperti kolaborasi, perencanaan, dan komunikasi yang baik.</p>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- All other chapters follow the same modern template... -->
+                <section id="bab2" class="content-section"></section>
+                <section id="bab3" class="content-section"></section>
+                <section id="bab4" class="content-section"></section>
+                <section id="bab5" class="content-section"></section>
+                <section id="bab6" class="content-section"></section>
+                <section id="bab7" class="content-section"></section>
+                <section id="bab8" class="content-section"></section>
+                <section id="bab9" class="content-section"></section>
+                
+                <!-- Kuis Interaktif Section -->
+                <section id="kuis" class="content-section">
+                    <div class="card">
+                        <div id="quiz-area">
+                            <!-- Quiz header -->
+                            <div id="quiz-header" class="border-b border-gray-700 pb-4 mb-6">
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <p class="text-sm font-semibold text-blue-500">EVALUASI</p>
+                                        <h2 class="text-3xl font-bold text-white mt-1">Kuis Interaktif</h2>
+                                    </div>
+                                    <div id="quiz-progress" class="text-right">
+                                        <p class="text-sm text-gray-400">Soal</p>
+                                        <p class="font-bold text-white text-lg">1 / 25</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Quiz body for single question -->
+                            <div id="quiz-body" class="mt-8">
+                                <!-- Single question will be rendered here -->
+                            </div>
+
+                            <!-- Quiz feedback area -->
+                            <div id="quiz-feedback" class="mt-4">
+                                <!-- Explanation will be shown here -->
+                            </div>
+
+                            <!-- Quiz navigation -->
+                            <div id="quiz-navigation" class="mt-8">
+                                <!-- Check/Next buttons will be rendered here -->
+                            </div>
+                        </div>
+
+                        <!-- Quiz final results -->
+                        <div id="quiz-final-result" class="hidden text-center">
+                            <h2 class="text-3xl font-bold text-white">Kuis Selesai!</h2>
+                            <p class="text-gray-400 mt-2">Berikut adalah hasil akhir Anda.</p>
+                            <div id="final-score-display" class="my-8">
+                                <p class="text-6xl font-extrabold text-blue-400">0/20</p>
+                                <p class="text-gray-400 mt-2">Soal Pilihan Ganda</p>
+                            </div>
+                            <button id="retake-quiz" class="w-full md:w-auto btn-primary text-white font-bold py-3 px-8 rounded-lg hover:opacity-90 transition-all duration-300 shadow-lg shadow-blue-500/20">
+                                Ulangi Kuis
+                            </button>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Unchanged content data
+            const babContent = {
+                bab2: {
+                    title: "Berpikir Komputasional",
+                    content: `
+                        <h3 class="text-xl font-semibold mt-8 mb-3 text-gray-100">A. Pengantar</h3>
+                        <p class="text-gray-400">Berpikir Komputasional (BK) adalah proses berpikir untuk memformulasikan masalah dan solusinya, sehingga solusi tersebut dapat secara efektif dijalankan oleh komputer atau manusia. Ini adalah fondasi dari ilmu informatika.</p>
+
+                        <h3 class="text-xl font-semibold mt-8 mb-3 text-gray-100">B. Penjelasan: Empat Pilar Berpikir Komputasional</h3>
+                        <div class="grid md:grid-cols-2 gap-4 mt-4">
+                            <div class="bg-gray-800 p-4 rounded-lg border border-gray-700">
+                                <h4 class="font-bold text-gray-100">1. Dekomposisi</h4>
+                                <p class="text-gray-400">Memecah masalah kompleks menjadi bagian-bagian yang lebih kecil dan lebih mudah dikelola.</p>
+                            </div>
+                             <div class="bg-gray-800 p-4 rounded-lg border border-gray-700">
+                                <h4 class="font-bold text-gray-100">2. Pengenalan Pola</h4>
+                                <p class="text-gray-400">Mencari kesamaan atau pola di antara bagian-bagian masalah untuk membantu kita menyelesaikan masalah dengan lebih efisien.</p>
+                            </div>
+                             <div class="bg-gray-800 p-4 rounded-lg border border-gray-700">
+                                <h4 class="font-bold text-gray-100">3. Abstraksi</h4>
+                                <p class="text-gray-400">Fokus pada informasi yang penting saja dan mengabaikan detail yang tidak relevan.</p>
+                            </div>
+                             <div class="bg-gray-800 p-4 rounded-lg border border-gray-700">
+                                <h4 class="font-bold text-gray-100">4. Algoritma</h4>
+                                <p class="text-gray-400">Mengembangkan solusi langkah-demi-langkah (instruksi) untuk menyelesaikan masalah.</p>
+                            </div>
+                        </div>
+
+                        <h3 class="text-xl font-semibold mt-8 mb-3 text-gray-100">C. Contoh Interaktif: Membuat Gelang Warna-Warni</h3>
+                         <div class="bg-gray-800 border-t-4 border-blue-600 p-6 rounded-b-lg">
+                            <p class="font-bold text-gray-100">Masalah:</p>
+                            <p class="mt-2 text-gray-400">Kiki membuat gelang dengan urutan warna: Merah, Hijau, Kuning, Biru. Pola diulang. Jika satu warna habis, pola dilanjutkan. Stok: 5M, 3H, 7K, 2B. Berapa total manik-manik yang bisa dirangkai?</p>
+                            <p class="font-bold mt-4 text-gray-100">Solusi Langkah-demi-Langkah (Algoritma):</p>
+                            <code class="block bg-black/50 text-white p-4 rounded-md text-sm whitespace-pre-wrap mt-2">1. Putaran 1: M-H-K-B. Sisa: 4M, 2H, 6K, 1B. (+4)
+2. Putaran 2: M-H-K-B. Sisa: 3M, 1H, 5K, 0B. (+4)
+3. Stok Biru (B) habis. Pola baru: M-H-K.
+4. Lanjut: M-H-K. Sisa: 2M, 0H, 4K. (+3)
+5. Stok Hijau (H) habis. Pola baru: M-K.
+6. Lanjut: M-K-M-K-M. (+5)
+7. Total Manik = 4 + 4 + 3 + 5 = 16 manik.</code>
+                        </div>
+
+                        <h3 class="text-xl font-semibold mt-8 mb-3 text-gray-100">D. Rangkuman</h3>
+                        <div class="border-l-4 border-blue-500 pl-4 py-2 bg-blue-900/20 rounded-r-lg">
+                            <p class="text-gray-300">Berpikir Komputasional adalah cara sistematis memecahkan masalah menggunakan dekomposisi, pengenalan pola, abstraksi, dan algoritma. Keterampilan ini berguna dalam kehidupan sehari-hari.</p>
+                        </div>
+                    `
+                },
+                bab3: {
+                    title: "Teknologi Informasi dan Komunikasi (TIK)",
+                    content: `
+                        <h3 class="text-xl font-semibold mt-8 mb-3 text-gray-100">A. Pengantar</h3>
+                        <p class="text-gray-400">Bab ini membahas tentang perkakas (tools) TIK yang umum digunakan untuk produktivitas. Kita akan belajar tentang antarmuka, pengelolaan file, hingga penggunaan aplikasi esensial.</p>
+
+                        <h3 class="text-xl font-semibold mt-8 mb-3 text-gray-100">B. Penjelasan</h3>
+                        <div class="space-y-6 text-gray-400">
+                            <div>
+                                <h4 class="font-semibold text-gray-200">1. Antarmuka Pengguna (User Interface)</h4>
+                                <p>Cara kita berinteraksi dengan perangkat. Umumnya menggunakan <strong>GUI (Graphical User Interface)</strong> yang visual dan intuitif.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-200">2. Folder dan File</h4>
+                                <p><strong>File</strong> adalah unit data. <strong>Folder</strong> adalah wadah untuk mengorganisasi file. Pengelolaan yang baik sangat penting untuk efisiensi.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-200">3. Peramban dan Mesin Pencari</h4>
+                                <p><strong>Peramban</strong> (Chrome) adalah aplikasi untuk membuka website. <strong>Mesin Pencari</strong> (Google) adalah website untuk mencari informasi.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-200">4. Surel (Email)</h4>
+                                <p>Alat komunikasi digital untuk mengirim pesan dan lampiran. Pahami penggunaan <strong>To, Cc,</strong> dan <strong>Bcc</strong>.</p>
+                            </div>
+                             <div>
+                                <h4 class="font-semibold text-gray-200">5. Aplikasi Perkantoran</h4>
+                                <p>Terdiri dari <strong>Pengolah Kata</strong> (MS Word), <strong>Pengolah Lembar Kerja</strong> (MS Excel), dan <strong>Aplikasi Presentasi</strong> (MS PowerPoint).</p>
+                            </div>
+                        </div>
+
+                        <h3 class="text-xl font-semibold mt-8 mb-3 text-gray-100">C. Contoh Interaktif: Membuat Struktur Folder</h3>
+                        <div class="bg-gray-800 border-t-4 border-blue-600 p-6 rounded-b-lg">
+                            <p class="font-bold text-gray-100">Tugas: Rapikan file-file sekolahmu!</p>
+                            <p class="mt-2 text-gray-400">File: \`Tugas_IPA.docx\`, \`Tugas_IPS.docx\`, \`Foto_Liburan.jpg\`.</p>
+                            <p class="font-bold mt-4 text-gray-100">Solusi Struktur Folder:</p>
+                            <div class="bg-black/50 text-white p-4 mt-2 rounded-md font-mono">
+                                <pre class="text-sm whitespace-pre-wrap">Dokumen/
+  ├── Sekolah/
+  │   ├── IPA/
+  │   │   └── Tugas_IPA.docx
+  │   └── IPS/
+  │       └── Tugas_IPS.docx
+  └── Pribadi/
+      └── Foto_Liburan.jpg</pre>
+                            </div>
+                            <p class="mt-4 text-sm italic text-blue-400">Struktur yang terorganisasi mempermudah pencarian file.</p>
+                        </div>
+
+                        <h3 class="text-xl font-semibold mt-8 mb-3 text-gray-100">D. Rangkuman</h3>
+                        <div class="border-l-4 border-blue-500 pl-4 py-2 bg-blue-900/20 rounded-r-lg">
+                        <p class="text-gray-300">Menguasai perkakas TIK seperti manajemen file, pencarian informasi, email, dan aplikasi perkantoran adalah keterampilan dasar yang wajib dimiliki di era digital.</p>
+                        </div>
+                    `
+                },
+                bab4: {
+                    title: "Sistem Komputer",
+                    content: `
+                        <h3 class="text-xl font-semibold mt-8 mb-3 text-gray-100">A. Pengantar</h3>
+                        <p class="text-gray-400">Bab ini mengajak kita "membongkar" isi komputer. Kita akan belajar tentang komponen utama yang membentuk sistem komputer, yaitu perangkat keras (hardware) dan perangkat lunak (software), serta bagaimana keduanya bekerja sama.</p>
+
+                        <h3 class="text-xl font-semibold mt-8 mb-3 text-gray-100">B. Penjelasan</h3>
+                        <p class="font-bold text-white">Sistem Komputer = Perangkat Keras (Hardware) + Perangkat Lunak (Software)</p>
+                        
+                        <p class="mb-2 mt-4 text-gray-200"><strong>1. Perangkat Keras (Hardware):</strong> Komponen fisik yang bisa disentuh.</p>
+                        <ul class="list-disc list-inside bg-gray-800 text-gray-400 p-4 rounded-lg grid md:grid-cols-2 gap-x-4 border border-gray-700">
+                            <li><strong>Input:</strong> Mengirim data ke komputer (Keyboard, Mouse).</li>
+                            <li><strong>Proses:</strong> Otak komputer (CPU, RAM).</li>
+                            <li><strong>Output:</strong> Menampilkan hasil (Monitor, Printer).</li>
+                            <li><strong>Penyimpanan:</strong> Menyimpan data permanen (HDD, SSD).</li>
+                        </ul>
+
+                        <p class="mb-2 mt-4 text-gray-200"><strong>2. Perangkat Lunak (Software):</strong> Program non-fisik.</p>
+                        <ul class="list-disc list-inside bg-gray-800 text-gray-400 p-4 rounded-lg border border-gray-700">
+                           <li><strong>Sistem Operasi (OS):</strong> Pengelola utama (Windows, Android).</li>
+                           <li><strong>Program Aplikasi:</strong> Untuk tugas spesifik (MS Word, Game).</li>
+                        </ul>
+
+                        <p class="mb-2 mt-4 text-gray-200"><strong>3. Bilangan Biner: Bahasa Komputer</strong></p>
+                        <p class="text-gray-400">Komputer memahami semua data sebagai sistem bilangan <strong>biner</strong>, yang hanya terdiri dari dua angka: <strong>0 (mati)</strong> dan <strong>1 (hidup)</strong>. Setiap 0 atau 1 disebut <strong>bit</strong>. Kumpulan 8 bit disebut <strong>byte</strong>.</p>
+                        
+                        <h3 class="text-xl font-semibold mt-8 mb-3 text-gray-100">C. Contoh Interaktif: Konversi Desimal ke Biner</h3>
+                        <div class="bg-gray-800 border-t-4 border-blue-600 p-6 rounded-b-lg">
+                            <p class="font-bold text-gray-100">Bagaimana komputer melihat angka 13?</p>
+                            <p class="mt-2 text-gray-400">Gunakan metode pembagian dengan 2 dan catat sisanya dari bawah ke atas.</p>
+                            <div class="bg-black/50 text-white p-4 mt-2 rounded-md font-mono text-sm">
+                                <p>13 / 2 = 6 sisa <span class="text-red-400 font-bold">1</span></p>
+                                <p>6 / 2 = 3 sisa <span class="text-yellow-300 font-bold">0</span></p>
+                                <p>3 / 2 = 1 sisa <span class="text-lime-400 font-bold">1</span></p>
+                                <p>1 / 2 = 0 sisa <span class="text-cyan-400 font-bold">1</span></p>
+                            </div>
+                            <p class="mt-2 text-sm italic text-blue-400">Baca sisa dari bawah ke atas: <strong>1101</strong>.</p>
+                        </div>
+
+                        <h3 class="text-xl font-semibold mt-8 mb-3 text-gray-100">D. Rangkuman</h3>
+                        <div class="border-l-4 border-blue-500 pl-4 py-2 bg-blue-900/20 rounded-r-lg">
+                        <p class="text-gray-300">Sistem komputer adalah kesatuan antara perangkat keras (fisik) dan perangkat lunak (program). Hardware menyediakan kemampuan dasar, sementara software mengaturnya. Semua informasi di dalamnya direpresentasikan dalam format biner.</p>
+                        </div>
+                    `
+                },
+                bab5: {
+                    title: "Jaringan Komputer dan Internet",
+                    content: `
+                        <h3 class="text-xl font-semibold mt-8 mb-3 text-gray-100">A. Pengantar</h3>
+                        <p class="text-gray-400">Bab ini menjelaskan bagaimana komputer dapat saling terhubung untuk berbagi data dan sumber daya, mulai dari jaringan lokal hingga jaringan global yang kita kenal sebagai Internet.</p>
+
+                        <h3 class="text-xl font-semibold mt-8 mb-3 text-gray-100">B. Penjelasan</h3>
+                        <div class="space-y-6 text-gray-400">
+                            <p><strong>1. Jaringan Komputer:</strong> Sekumpulan komputer yang terhubung untuk berbagi sumber daya. Tipe utamanya: <strong>LAN</strong> (area lokal) dan <strong>WAN</strong> (area luas).</p>
+                            <p><strong>2. Internet:</strong> "Jaringan dari segala jaringan" (network of networks) yang menghubungkan perangkat di seluruh dunia menggunakan protokol <strong>TCP/IP</strong>.</p>
+                            <p><strong>3. World Wide Web (WWW):</strong> Sistem informasi (halaman web) yang berjalan di atas internet.</p>
+                            <p><strong>4. Koneksi Internet:</strong> Cara terhubung ke internet, umumnya melalui <strong>Wi-Fi</strong> (nirkabel) atau <strong>Tethering</strong> (berbagi koneksi dari ponsel).</p>
+                            <p><strong>5. Enkripsi:</strong> Proses mengubah data asli menjadi kode rahasia (ciphertext) untuk melindunginya dari pihak yang tidak berwenang.</p>
+                        </div>
+
+                        <h3 class="text-xl font-semibold mt-8 mb-3 text-gray-100">C. Contoh Interaktif: Caesar's Cipher</h3>
+                        <div class="bg-gray-800 border-t-4 border-blue-600 p-6 rounded-b-lg">
+                            <p class="font-bold text-gray-100">Enkripsi dengan Geser Huruf</p>
+                            <p class="mt-2 text-gray-400">Contoh: Enkripsi kata "INFORMATIKA" dengan kunci geser 3 huruf ke kanan.</p>
+                            <div class="bg-black/50 text-white p-4 mt-2 rounded-md font-mono text-sm break-words">
+                                <p>Plaintext:  INFORMATIKA</p>
+                                <p>Ciphertext: LQIRUPDWLND</p>
+                            </div>
+                            <p class="mt-4 text-sm italic text-blue-400">Ini adalah contoh enkripsi simetris yang sederhana.</p>
+                        </div>
+
+                        <h3 class="text-xl font-semibold mt-8 mb-3 text-gray-100">D. Rangkuman</h3>
+                        <div class="border-l-4 border-blue-500 pl-4 py-2 bg-blue-900/20 rounded-r-lg">
+                        <p class="text-gray-300">Jaringan komputer menghubungkan perangkat untuk berbagi sumber daya. Internet adalah jaringan global yang menjadi tulang punggung komunikasi. Koneksi dapat dilakukan via Wi-Fi atau tethering, dan keamanan data dijaga dengan enkripsi.</p>
+                        </div>
+                    `
+                },
+                 bab6: {
+                    title: "Analisis Data",
+                    content: `
+                        <h3 class="text-xl font-semibold mt-8 mb-3 text-gray-100">A. Pengantar</h3>
+                        <p class="text-gray-400">Bab ini mengajarkan cara mengelola, mengolah, dan menafsirkan data untuk mendapatkan informasi dan wawasan yang berguna untuk pengambilan keputusan.</p>
+
+                        <h3 class="text-xl font-semibold mt-8 mb-3 text-gray-100">B. Penjelasan</h3>
+                        <div class="space-y-6 text-gray-400">
+                            <p><strong>1. Data, Analisis, & Interpretasi:</strong> <strong>Data</strong> adalah fakta mentah. <strong>Analisis Data</strong> adalah proses mengolahnya. <strong>Interpretasi Data</strong> adalah memberi makna pada hasil analisis.</p>
+                            <p><strong>2. Spreadsheet:</strong> Aplikasi seperti <strong>MS Excel</strong> atau <strong>Google Sheets</strong> adalah alat utama, dengan fitur penting seperti <strong>Cell</strong>, <strong>Formula</strong> (SUM, AVERAGE, IF), <strong>Sort</strong>, <strong>Filter</strong>, dan <strong>Grafik</strong>.</p>
+                        </div>
+
+                        <h3 class="text-xl font-semibold mt-8 mb-3 text-gray-100">C. Contoh Interaktif: Analisis Nilai Siswa</h3>
+                        <div class="bg-gray-800 border-t-4 border-blue-600 p-6 rounded-b-lg">
+                            <p class="font-bold text-gray-100">Studi Kasus: Daftar Nilai Ulangan</p>
+                            <div class="overflow-x-auto my-2">
+                                <table class="w-full min-w-max text-sm text-left text-gray-400 bg-gray-900 rounded-lg">
+                                    <thead class="text-xs text-gray-200 uppercase bg-gray-700">
+                                        <tr><th class="px-4 py-2">Nama</th><th class="px-4 py-2">Nilai</th></tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-gray-700">
+                                        <tr><td class="px-4 py-2">Budi</td><td class="px-4 py-2">85</td></tr>
+                                        <tr><td class="px-4 py-2">Ani</td><td class="px-4 py-2">92</td></tr>
+                                        <tr><td class="px-4 py-2">Candra</td><td class="px-4 py-2">78</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <p class="font-bold mt-4 text-gray-100">Analisis dengan fungsi spreadsheet:</p>
+                             <div class="bg-black/50 text-white p-4 mt-2 rounded-md font-mono text-sm">
+                                <p><strong>Rata-rata:</strong> =AVERAGE(...) -> Hasil: 85</p>
+                                <p><strong>Nilai Tertinggi:</strong> =MAX(...) -> Hasil: 92</p>
+                            </div>
+                        </div>
+
+                        <h3 class="text-xl font-semibold mt-8 mb-3 text-gray-100">D. Rangkuman</h3>
+                        <div class="border-l-4 border-blue-500 pl-4 py-2 bg-blue-900/20 rounded-r-lg">
+                            <p class="text-gray-300">Analisis data adalah proses mengubah data mentah menjadi informasi berguna. Dengan spreadsheet, kita dapat dengan mudah melakukan perhitungan, pemfilteran, dan visualisasi data.</p>
+                        </div>
+                    `
+                },
+                 bab7: {
+                    title: "Algoritma dan Pemrograman",
+                    content: `
+                        <h3 class="text-xl font-semibold mt-8 mb-3 text-gray-100">A. Pengantar</h3>
+                        <p class="text-gray-400">Bab ini adalah jembatan dari berpikir ke melakukan: bagaimana cara "menyuruh" komputer. Kita akan belajar tentang algoritma sebagai resep dan pemrograman sebagai cara menulis resep itu.</p>
+
+                        <h3 class="text-xl font-semibold mt-8 mb-3 text-gray-100">B. Penjelasan</h3>
+                        <div class="space-y-6 text-gray-400">
+                            <p><strong>1. Algoritma:</strong> Urutan langkah-langkah logis untuk menyelesaikan masalah. Harus jelas, terbatas, dan efektif.</p>
+                            <p><strong>2. Pemrograman:</strong> Proses menulis, menguji, dan memperbaiki (debug) kode yang mengimplementasikan sebuah algoritma.</p>
+                             <p><strong>3. Pemrograman Visual dengan Scratch:</strong> Untuk pemula, <strong>Scratch</strong> memungkinkan pembuatan program dengan menyusun balok-balok perintah, cara yang menyenangkan untuk belajar logika.</p>
+                        </div>
+                        
+                        <h3 class="text-xl font-semibold mt-8 mb-3 text-gray-100">C. Contoh Interaktif: Algoritma & Script Scratch</h3>
+                        <div class="bg-gray-800 border-t-4 border-blue-600 p-6 rounded-b-lg">
+                            <p class="font-bold text-gray-100">Tugas: Buat kucing berjalan bolak-balik di layar.</p>
+                            <p class="font-bold mt-4 text-gray-100">Algoritma:</p>
+                             <ol class="list-decimal list-inside mt-2 ml-4 text-sm text-gray-400">
+                                 <li>Mulai.</li>
+                                 <li>Ulangi selamanya: gerakkan sprite, jika menyentuh pinggir, pantulkan.</li>
+                                 <li>Selesai.</li>
+                             </ol>
+                            <p class="font-bold mt-4 text-gray-100">Script Scratch:</p>
+                             <div class="bg-gray-900 p-3 mt-2 rounded-md shadow-sm space-y-1 w-fit">
+                                <div class="p-2 rounded bg-yellow-500 text-sm text-black font-bold">when green flag clicked</div>
+                                <div class="p-2 rounded bg-orange-500 text-sm text-white font-semibold">forever</div>
+                                <div class="p-2 rounded bg-blue-600 text-sm text-white font-semibold ml-4">move 10 steps</div>
+                                <div class="p-2 rounded bg-blue-600 text-sm text-white font-semibold ml-4">if on edge, bounce</div>
+                            </div>
+                        </div>
+
+                        <h3 class="text-xl font-semibold mt-8 mb-3 text-gray-100">D. Rangkuman</h3>
+                        <div class="border-l-4 border-blue-500 pl-4 py-2 bg-blue-900/20 rounded-r-lg">
+                        <p class="text-gray-300">Algoritma adalah peta jalan untuk pemecahan masalah. Pemrograman adalah alat untuk mewujudkan peta jalan itu menjadi aplikasi. Lingkungan seperti Scratch membuat proses belajar menjadi lebih mudah diakses.</p>
+                        </div>
+                    `
+                },
+                 bab8: {
+                    title: "Dampak Sosial Informatika",
+                    content: `
+                        <h3 class="text-xl font-semibold mt-8 mb-3 text-gray-100">A. Pengantar</h3>
+                        <p class="text-gray-400">Teknologi telah mengubah cara kita hidup, bekerja, dan bersosialisasi. Bab ini membahas dampak positif maupun negatif, serta pentingnya etika dan kesadaran dalam menggunakan teknologi.</p>
+
+                        <h3 class="text-xl font-semibold mt-8 mb-3 text-gray-100">B. Penjelasan</h3>
+                        <div class="space-y-6 text-gray-400">
+                            <p><strong>1. Pengaruh TIK:</strong> Merevolusi bidang komunikasi (chat), ekonomi (e-commerce), pendidikan (e-learning), dan pemerintahan (e-government).</p>
+                            <p><strong>2. Dampak Positif vs Negatif:</strong></p>
+                            <div class="grid md:grid-cols-2 gap-4 mt-2">
+                                <div class="bg-green-900/40 p-4 rounded-lg border border-green-700">
+                                    <h4 class="font-bold text-green-300">Positif</h4>
+                                    <ul class="list-disc list-inside mt-2 text-sm"><li>Komunikasi mudah</li><li>Informasi cepat</li></ul>
+                                </div>
+                                <div class="bg-red-900/40 p-4 rounded-lg border border-red-700">
+                                    <h4 class="font-bold text-red-300">Negatif</h4>
+                                    <ul class="list-disc list-inside mt-2 text-sm"><li>Hoaks & cyberbullying</li><li>Kecanduan & isu privasi</li></ul>
+                                </div>
+                            </div>
+                            <p><strong>3. Privasi Data:</strong> Kita harus selalu sadar akan <strong>informasi pribadi</strong> yang kita bagikan dan pentingnya menjaga <strong>privasi</strong> dengan password kuat dan pengaturan yang tepat.</p>
+                        </div>
+
+                        <h3 class="text-xl font-semibold mt-8 mb-3 text-gray-100">C. Contoh Interaktif: Menganalisis Jejak Digital</h3>
+                        <div class="bg-gray-800 border-t-4 border-blue-600 p-6 rounded-b-lg">
+                            <p class="font-bold text-gray-100">Studi Kasus: Privasi di Media Sosial</p>
+                            <p class="mt-2 text-gray-400">Cek profil media sosialmu. Informasi apa saja yang bisa dilihat publik? (Nama, tanggal lahir, sekolah, lokasi). Apakah semua itu perlu dibagikan? Mengelola pengaturan privasi adalah kunci melindungi diri.</p>
+                        </div>
+
+                        <h3 class="text-xl font-semibold mt-8 mb-3 text-gray-100">D. Rangkuman</h3>
+                        <div class="border-l-4 border-blue-500 pl-4 py-2 bg-blue-900/20 rounded-r-lg">
+                        <p class="text-gray-300">Sebagai warga digital yang bertanggung jawab, kita harus memaksimalkan dampak positif teknologi sambil mewaspadai dampak negatifnya. Kunci utamanya adalah kesadaran, etika, dan kehati-hatian.</p>
+                        </div>
+                    `
+                },
+                 bab9: {
+                    title: "Praktika Lintas Bidang",
+                    content: `
+                        <h3 class="text-xl font-semibold mt-8 mb-3 text-gray-100">A. Pengantar</h3>
+                        <p class="text-gray-400">Praktika Lintas Bidang (PLB) adalah puncak pembelajaran informatika, tempat kita mengintegrasikan semua pengetahuan untuk menciptakan sebuah solusi nyata, yang disebut <strong>artefak komputasional</strong>.</p>
+                        
+                        <h3 class="text-xl font-semibold mt-8 mb-3 text-gray-100">B. Penjelasan: Siklus Pengembangan Proyek</h3>
+                        <ol class="list-decimal list-inside bg-gray-800 text-gray-400 p-4 rounded-lg space-y-2 border border-gray-700">
+                           <li><strong>Identifikasi Masalah:</strong> Menemukan masalah nyata atau ide kreatif.</li>
+                           <li><strong>Desain Solusi:</strong> Merencanakan bagaimana artefak akan dibuat (algoritma, antarmuka).</li>
+                           <li><strong>Implementasi:</strong> Mulai membuat artefak (menulis kode, merakit komponen).</li>
+                           <li><strong>Pengujian:</strong> Mencari dan memperbaiki kesalahan (bug).</li>
+                           <li><strong>Dokumentasi & Komunikasi:</strong> Membuat catatan dan mempresentasikan hasil.</li>
+                        </ol>
+
+                        <h3 class="text-xl font-semibold mt-8 mb-3 text-gray-100">C. Contoh Interaktif: Proyek Piano dari Buah</h3>
+                        <div class="bg-gray-800 border-t-4 border-blue-600 p-6 rounded-b-lg">
+                            <p class="font-bold text-gray-100">Ide Proyek: Membuat piano yang tuts-nya dari buah-buahan.</p>
+                            <p class="mt-4 font-bold text-gray-100">Penerapan Lintas Bidang:</p>
+                             <ul class="list-disc list-inside mt-2 ml-4 text-sm text-gray-400">
+                                 <li><strong>SK:</strong> Menggunakan papan sirkuit <strong>Makey Makey</strong>.</li>
+                                 <li><strong>AP:</strong> Membuat program di <strong>Scratch</strong> untuk mengeluarkan suara nada.</li>
+                                 <li><strong>JKI:</strong> Menghubungkan Makey Makey ke komputer via USB.</li>
+                                 <li><strong>BK:</strong> Merancang algoritma "JIKA pisang disentuh, MAKA mainkan nada 'Do'".</li>
+                             </ul>
+                        </div>
+
+                        <h3 class="text-xl font-semibold mt-8 mb-3 text-gray-100">D. Rangkuman</h3>
+                        <div class="border-l-4 border-blue-500 pl-4 py-2 bg-blue-900/20 rounded-r-lg">
+                        <p class="text-gray-300">PLB adalah tentang "menciptakan". Ini adalah kesempatan menerapkan teori dalam proyek nyata, melatih cara merencanakan, mengembangkan, dan menguji solusi teknologi secara kolaboratif.</p>
+                        </div>
+                    `
+                }
+            };
+            
+            // Quiz Data
+             const quizData = [
+                // This data remains the same
+                { type: 'mc', question: 'Bidang ilmu yang mempelajari studi, perancangan, dan pembuatan sistem komputasi disebut...', options: ['Matematika', 'Informatika', 'Biologi', 'Sejarah'], answer: 'Informatika', explanation: 'Informatika adalah bidang ilmu mengenai studi, perancangan, dan pembuatan sistem komputasi, serta prinsip-prinsip yang menjadi dasar perancangan tersebut.' },
+                { type: 'mc', question: 'Memecah masalah kompleks menjadi bagian-bagian yang lebih kecil adalah pilar Berpikir Komputasional yang disebut...', options: ['Abstraksi', 'Algoritma', 'Dekomposisi', 'Pengenalan Pola'], answer: 'Dekomposisi', explanation: 'Dekomposisi adalah proses memecah masalah besar menjadi sub-masalah yang lebih kecil dan lebih mudah dikelola.' },
+                { type: 'mc', question: 'Aplikasi yang digunakan untuk mengakses halaman web di internet, seperti Chrome atau Firefox, disebut...', options: ['Search Engine', 'Sistem Operasi', 'Peramban (Browser)', 'Spreadsheet'], answer: 'Peramban (Browser)', explanation: 'Peramban atau Browser adalah perangkat lunak aplikasi yang digunakan untuk mengakses informasi di World Wide Web.'},
+                { type: 'mc', question: 'Komponen fisik komputer yang bisa disentuh, seperti mouse dan keyboard, disebut...', options: ['Software', 'Freeware', 'Brainware', 'Hardware'], answer: 'Hardware', explanation: 'Hardware atau perangkat keras adalah semua komponen fisik dari sistem komputer yang dapat kita lihat dan sentuh.'},
+                { type: 'mc', question: 'Sistem bilangan yang hanya menggunakan angka 0 dan 1, yang menjadi bahasa dasar komputer, adalah...', options: ['Desimal', 'Heksadesimal', 'Oktal', 'Biner'], answer: 'Biner', explanation: 'Sistem bilangan biner menggunakan basis 2, yaitu hanya angka 0 dan 1. Ini adalah dasar dari semua pemrosesan data di komputer.'},
+                { type: 'mc', question: 'Jaringan komputer global yang menghubungkan miliaran perangkat di seluruh dunia adalah...', options: ['LAN', 'Intranet', 'Internet', 'WWW'], answer: 'Internet', explanation: 'Internet adalah jaringan global (network of networks) yang menghubungkan perangkat di seluruh dunia. WWW adalah layanan yang berjalan di atas internet.'},
+                { type: 'mc', question: 'Proses mengubah data asli menjadi kode rahasia untuk melindunginya disebut...', options: ['Dekripsi', 'Kompresi', 'Enkripsi', 'Fragmentasi'], answer: 'Enkripsi', explanation: 'Enkripsi adalah proses mengamankan informasi dengan mengubahnya menjadi format yang tidak dapat dibaca tanpa kunci dekripsi.'},
+                { type: 'mc', question: 'Aplikasi seperti Microsoft Excel atau Google Sheets termasuk dalam kategori...', options: ['Pengolah Kata', 'Pengolah Lembar Kerja (Spreadsheet)', 'Aplikasi Presentasi', 'Desain Grafis'], answer: 'Pengolah Lembar Kerja (Spreadsheet)', explanation: 'Spreadsheet digunakan untuk mengorganisasi, menganalisis, dan menyimpan data dalam bentuk tabel.'},
+                { type: 'mc', question: 'Langkah-langkah logis dan terurut untuk menyelesaikan suatu masalah disebut...', options: ['Program', 'Kode', 'Logika', 'Algoritma'], answer: 'Algoritma', explanation: 'Algoritma adalah serangkaian instruksi atau aturan langkah-demi-langkah yang didefinisikan untuk menyelesaikan suatu masalah.'},
+                { type: 'mc', question: 'Lingkungan pemrograman visual yang menggunakan balok-balok perintah untuk pemula adalah...', options: ['Python', 'Java', 'Scratch', 'C++'], answer: 'Scratch', explanation: 'Scratch dirancang oleh MIT Media Lab sebagai alat pembelajaran pemrograman yang mudah dan menyenangkan bagi pemula.'},
+                { type: 'mc', question: 'Penyebaran informasi palsu di internet dikenal dengan istilah...', options: ['Phishing', 'Spam', 'Hoaks', 'Cyberbullying'], answer: 'Hoaks', explanation: 'Hoaks adalah informasi yang direkayasa agar tampak benar, dengan tujuan menipu atau mengakali pembaca/pendengarnya.'},
+                { type: 'mc', question: 'Objek yang dibuat menggunakan komputer, seperti program atau animasi, disebut...', options: ['Artefak Komputasional', 'Produk Digital', 'Hasil Karya', 'Invensi'], answer: 'Artefak Komputasional', explanation: 'Artefak komputasional adalah istilah yang digunakan dalam informatika untuk merujuk pada objek yang diciptakan melalui proses komputasi.'},
+                { type: 'mc', question: 'Fungsi `Ctrl+C` pada keyboard umumnya digunakan untuk...', options: ['Menempel (Paste)', 'Memotong (Cut)', 'Menyalin (Copy)', 'Menyimpan (Save)'], answer: 'Menyalin (Copy)', explanation: 'Ctrl+C (Copy), Ctrl+X (Cut), dan Ctrl+V (Paste) adalah shortcut keyboard fundamental untuk manipulasi teks dan file.'},
+                { type: 'mc', question: 'Perangkat lunak utama yang mengelola semua sumber daya komputer adalah...', options: ['Aplikasi Perkantoran', 'Antivirus', 'Sistem Operasi', 'Peramban Web'], answer: 'Sistem Operasi', explanation: 'Sistem Operasi (OS) seperti Windows atau Android bertindak sebagai jembatan antara hardware, software aplikasi, dan pengguna.'},
+                { type: 'mc', question: 'Kumpulan 8 bit data disebut...', options: ['Byte', 'Nibble', 'Word', 'Kilobit'], answer: 'Byte', explanation: 'Satu byte adalah unit dasar penyimpanan informasi dalam komputasi. 1 Byte = 8 Bit.'},
+                { type: 'mc', question: 'Untuk mencari informasi di Google, kita mengetikkan...', options: ['URL', 'Kata Kunci (Keyword)', 'Protokol', 'Algoritma'], answer: 'Kata Kunci (Keyword)', explanation: 'Kata kunci adalah kata atau frasa yang paling relevan dengan informasi yang ingin kita cari di mesin pencari.'},
+                { type: 'mc', question: 'Fungsi logika pada spreadsheet yang memeriksa apakah sebuah kondisi benar atau salah adalah...', options: ['SUM', 'AVERAGE', 'IF', 'COUNT'], answer: 'IF', explanation: 'Fungsi IF melakukan tes logika dan mengembalikan satu nilai jika hasilnya TRUE, dan nilai lain jika hasilnya FALSE.'},
+                { type: 'mc', question: 'Fokus pada informasi penting dan mengabaikan detail yang tidak relevan adalah pilar BK yang disebut...', options: ['Dekomposisi', 'Abstraksi', 'Algoritma', 'Pengenalan Pola'], answer: 'Abstraksi', explanation: 'Abstraksi membantu menyederhanakan masalah dengan menyembunyikan kompleksitas yang tidak perlu.'},
+                { type: 'mc', question: 'Apa kepanjangan dari CPU?', options: ['Central Process Unit', 'Central Programming Unit', 'Computer Personal Unit', 'Central Processing Unit'], answer: 'Central Processing Unit', explanation: 'CPU (Central Processing Unit) sering disebut sebagai "otak" komputer karena tugasnya melakukan sebagian besar pemrosesan.'},
+                { type: 'mc', question: 'Berbagi koneksi internet dari ponsel ke laptop disebut...', options: ['Downloading', 'Uploading', 'Tethering', 'Streaming'], answer: 'Tethering', explanation: 'Tethering memungkinkan ponsel berfungsi sebagai modem portabel untuk memberikan akses internet ke perangkat lain.'},
+                { type: 'essay', question: 'Jelaskan secara singkat perbedaan antara Hardware dan Software! Berikan masing-masing 2 contoh.', explanation: 'Hardware adalah komponen fisik komputer yang bisa disentuh (contoh: mouse, monitor). Software adalah program atau instruksi yang tidak memiliki wujud fisik yang berjalan di atas hardware (contoh: Windows 10, Microsoft Word).'},
+                { type: 'essay', question: 'Sebutkan empat pilar Berpikir Komputasional (Computational Thinking)!', explanation: 'Empat pilar Berpikir Komputasional adalah: 1. Dekomposisi, 2. Pengenalan Pola, 3. Abstraksi, dan 4. Algoritma.'},
+                { type: 'essay', question: 'Apa perbedaan antara Internet dan World Wide Web (WWW)?', explanation: 'Internet adalah infrastruktur jaringannya (kabel, router, server) yang menghubungkan komputer secara global. World Wide Web (WWW) adalah sistem informasi (kumpulan halaman web, gambar, video) yang berjalan di atas infrastruktur internet dan diakses menggunakan browser.'},
+                { type: 'essay', question: 'Mengapa enkripsi penting saat kita mengirim data melalui internet?', explanation: 'Enkripsi penting untuk melindungi privasi dan keamanan data. Dengan mengubah data menjadi kode rahasia, enkripsi mencegah pihak yang tidak berwenang (seperti peretas) untuk membaca atau mencuri informasi sensitif (seperti password atau detail kartu kredit) saat data tersebut dikirim melalui jaringan internet.'},
+                { type: 'essay', question: 'Sebutkan 2 dampak positif dan 2 dampak negatif dari penggunaan media sosial!', explanation: 'Dampak Positif: 1. Mempermudah komunikasi dan menjaga hubungan dengan teman/keluarga. 2. Sebagai sarana mendapatkan informasi dan berita terkini. Dampak Negatif: 1. Risiko cyberbullying dan penyebaran hoaks. 2. Potensi kecanduan yang mengganggu produktivitas dan kesehatan mental.'}
+            ];
+
+            // --- QUIZ LOGIC ---
+            let currentQuestionIndex = 0;
+            let score = 0;
+            const totalMcQuestions = quizData.filter(q => q.type === 'mc').length;
+
+            const quizArea = document.getElementById('quiz-area');
+            const quizBody = document.getElementById('quiz-body');
+            const quizFeedback = document.getElementById('quiz-feedback');
+            const quizNavigation = document.getElementById('quiz-navigation');
+            const quizProgress = document.getElementById('quiz-progress');
+            const finalResultArea = document.getElementById('quiz-final-result');
+            const finalScoreDisplay = document.getElementById('final-score-display');
+            
+            function startQuiz() {
+                currentQuestionIndex = 0;
+                score = 0;
+                quizArea.style.display = 'block';
+                finalResultArea.classList.add('hidden');
+                displayQuestion();
+            }
+
+            function displayQuestion() {
+                quizFeedback.innerHTML = '';
+                const q = quizData[currentQuestionIndex];
+                
+                let questionHTML = `<p class="font-semibold text-gray-100 text-lg mb-4">${q.question}</p>`;
+                
+                if (q.type === 'mc') {
+                    questionHTML += `<div id="mc-options" class="space-y-3">`;
+                    const shuffledOptions = [...q.options].sort(() => Math.random() - 0.5);
+                    shuffledOptions.forEach(option => {
+                        questionHTML += `
+                            <div class="quiz-option">
+                                <input type="radio" id="q${currentQuestionIndex}_${option.replace(/\s+/g, '-')}" name="question${currentQuestionIndex}" value="${option}" class="hidden">
+                                <label for="q${currentQuestionIndex}_${option.replace(/\s+/g, '-')}" class="block w-full p-3 border-2 border-gray-600 rounded-lg cursor-pointer transition-all hover:bg-gray-700 hover:border-gray-500">${option}</label>
+                            </div>
+                        `;
+                    });
+                    questionHTML += `</div>`;
+                } else if (q.type === 'essay') {
+                    questionHTML += `<textarea id="essay-answer" rows="5" class="w-full p-3 bg-gray-800 border-2 border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-shadow text-gray-200" placeholder="Ketik jawabanmu di sini..."></textarea>`;
+                }
+
+                quizBody.innerHTML = questionHTML;
+                
+                quizNavigation.innerHTML = `<button id="check-answer-btn" class="w-full btn-primary text-white font-bold py-3 px-6 rounded-lg hover:opacity-90 transition-all duration-300 shadow-lg shadow-blue-500/20 transform hover:-translate-y-0.5">Cek Jawaban</button>`;
+                document.getElementById('check-answer-btn').addEventListener('click', checkAnswer);
+
+                quizProgress.innerHTML = `<p class="text-sm text-gray-400">Soal</p><p class="font-bold text-white text-lg">${currentQuestionIndex + 1} / ${quizData.length}</p>`;
+            }
+
+            function checkAnswer() {
+                const q = quizData[currentQuestionIndex];
+                let isCorrect = false;
+                let userAnswerValue = null;
+
+                const inputs = quizBody.querySelectorAll('input[type="radio"], textarea');
+                inputs.forEach(input => input.disabled = true);
+                
+                if (q.type === 'mc') {
+                    const userAnswerNode = quizBody.querySelector(`input[name="question${currentQuestionIndex}"]:checked`);
+                    if (userAnswerNode) {
+                        userAnswerValue = userAnswerNode.value;
+                        if(userAnswerValue === q.answer) {
+                            score++;
+                            isCorrect = true;
+                        }
+                        // Visual feedback for options
+                        const options = quizBody.querySelectorAll('.quiz-option');
+                        options.forEach(opt => {
+                            const radio = opt.querySelector('input');
+                            if(radio.value === q.answer) {
+                                opt.classList.add('selected-correct');
+                            } else if (radio.checked) {
+                                opt.classList.add('selected-incorrect');
+                            }
+                        });
+                    }
+                } else {
+                    userAnswerValue = quizBody.querySelector('#essay-answer').value;
+                }
+
+                // Display feedback
+                let feedbackHTML = '';
+                if (q.type === 'mc') {
+                     if (userAnswerValue === null) {
+                        feedbackHTML = `<div class="p-4 border-l-4 rounded-r-lg text-sm bg-yellow-900/30 text-yellow-300 border-yellow-500"><strong class="font-bold">Tidak dijawab.</strong> Jawaban yang benar adalah <strong>${q.answer}</strong>. <br>${q.explanation}</div>`;
+                     } else if(isCorrect) {
+                        feedbackHTML = `<div class="p-4 border-l-4 rounded-r-lg text-sm bg-green-900/30 text-green-300 border-green-500"><strong class="font-bold">Benar!</strong> ${q.explanation}</div>`;
+                    } else {
+                        feedbackHTML = `<div class="p-4 border-l-4 rounded-r-lg text-sm bg-red-900/30 text-red-300 border-red-500"><strong class="font-bold">Salah.</strong> Jawaban yang benar adalah <strong>${q.answer}</strong>. <br>${q.explanation}</div>`;
+                    }
+                } else {
+                    feedbackHTML = `<div class="p-4 border-l-4 rounded-r-lg text-sm bg-blue-900/30 text-blue-300 border-blue-500"><strong class="font-bold">Pembahasan:</strong> ${q.explanation}</div>`;
+                }
+                quizFeedback.innerHTML = feedbackHTML;
+
+                // Change button to "Next"
+                const nextButtonText = (currentQuestionIndex < quizData.length - 1) ? 'Lanjut ke Soal Berikutnya' : 'Lihat Hasil Akhir';
+                quizNavigation.innerHTML = `<button id="next-question-btn" class="w-full btn-primary text-white font-bold py-3 px-6 rounded-lg hover:opacity-90 transition-all duration-300 shadow-lg shadow-blue-500/20 transform hover:-translate-y-0.5">${nextButtonText}</button>`;
+                document.getElementById('next-question-btn').addEventListener('click', nextQuestion);
+            }
+
+            function nextQuestion() {
+                currentQuestionIndex++;
+                if (currentQuestionIndex < quizData.length) {
+                    displayQuestion();
+                } else {
+                    showFinalResult();
+                }
+            }
+            
+            function showFinalResult() {
+                quizArea.style.display = 'none';
+                finalResultArea.classList.remove('hidden');
+                finalScoreDisplay.innerHTML = `<p class="text-6xl font-extrabold text-blue-400">${score}/${totalMcQuestions}</p><p class="text-gray-400 mt-2">Soal Pilihan Ganda</p>`;
+            }
+
+            document.getElementById('retake-quiz').addEventListener('click', startQuiz);
+
+            // --- General Page Logic ---
+            const sidebarLinks = document.querySelectorAll('.sidebar-link');
+            const contentSections = document.querySelectorAll('.content-section');
+            const menuToggle = document.getElementById('menu-toggle');
+            const sidebar = document.getElementById('sidebar');
+            const mobileHeaderTitle = document.getElementById('mobile-header-title');
+
+             function populateBabContent() {
+                for (const babId in babContent) {
+                    const section = document.getElementById(babId);
+                    if (section) {
+                        const { title, content } = babContent[babId];
+                        section.innerHTML = `
+                            <div class="card">
+                                <div class="border-b border-gray-700 pb-4 mb-6">
+                                    <p class="text-sm font-semibold text-blue-500">BAB ${babId.replace('bab','')}</p>
+                                    <h2 class="text-3xl font-bold text-white mt-1">${title}</h2>
+                                </div>
+                                ${content}
+                            </div>
+                        `;
+                    }
+                }
+            }
+
+            function updateContent(hash) {
+                if (!hash || hash === '#') hash = '#home';
+                
+                contentSections.forEach(section => section.classList.remove('active'));
+                sidebarLinks.forEach(link => link.classList.remove('active'));
+
+                const activeSection = document.querySelector(hash);
+                let activeLinkText = 'Beranda';
+
+                if (activeSection) {
+                    activeSection.classList.add('active');
+                    const activeLink = document.querySelector(`.sidebar-link[href="${hash}"]`);
+                    if(activeLink) {
+                        activeLink.classList.add('active');
+                        activeLinkText = activeLink.textContent.trim();
+                    }
+                    if (hash === '#kuis') {
+                        startQuiz();
+                    }
+                }
+                
+                mobileHeaderTitle.textContent = activeLinkText;
+                 
+                if (sidebar.classList.contains('!translate-x-0')) {
+                   sidebar.classList.remove('!translate-x-0');
+                   sidebar.classList.add('-translate-x-full');
+                }
+                window.scrollTo(0, 0);
+            }
+
+            sidebarLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const hash = this.getAttribute('href');
+                    history.pushState(null, null, ' ' + hash);
+                    updateContent(hash);
+                });
+            });
+
+            menuToggle.addEventListener('click', () => {
+                sidebar.classList.toggle('-translate-x-full');
+                sidebar.classList.toggle('!translate-x-0');
+            });
+            
+            window.addEventListener('popstate', () => {
+                updateContent(window.location.hash);
+            });
+            
+            populateBabContent();
+            updateContent(window.location.hash || '#home');
+        });
+    </script>
+</body>
+</html>
